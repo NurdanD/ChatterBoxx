@@ -9,13 +9,13 @@ export const signup = async(req, res) => {
 
 
       if (password !== confirmPassword) {
-        return res.status(400).json({error:"Password don't match"});   //Girilen parolanın eşleşme durumunu kontrol ederiz.
+        return res.status(400).json({error:"Şifre eşleşmedi"});   //Girilen parolanın eşleşme durumunu kontrol ederiz.
       }
 
       const user= await User.findOne({username});           //Kullanıcı adının sistemde daha öncesinde var olup olmadığını kontrol ederiz.
 
       if (user) {
-        return res.status(400).json({error:"Username already exists"});     //Kullanıcı daha önceden sisteme kayıtlıysa hata mesajı yollarız.
+        return res.status(400).json({error:"Kayıtlı kullanıcı"});     //Kullanıcı daha önceden sisteme kayıtlıysa hata mesajı yollarız.
       }
 
       //PAROLAYI HASH FONKSİYONUNA SOKUYORUZ
@@ -46,14 +46,14 @@ export const signup = async(req, res) => {
         profilePic:newUser.profilePic,
       });
       } else{
-        res.status(400).json({error:"Invalid user data"});
+        res.status(400).json({error:"Kullanıcı verilerini doğrula"});
       }
 
 
 
     } catch (error) {                   //Kullanıcı kaydı sağlanmazsa bu hata mesajını alırız.
-      console.log("Error in signup controller", error.message);
-      res.status(500).json({error:"Internal Server Error"});
+      console.log("Kayıt controllerda hata oluştu", error.message);
+      res.status(500).json({error:"Dahili Sunucu Hatası"});
         
     }
     

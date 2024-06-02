@@ -1,5 +1,7 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import mongoose from 'mongoose'; // mongoose modülünü içe aktarın
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 //Mesaj Yollamak
 export const sendMessage = async (req, res) => {
@@ -7,6 +9,11 @@ export const sendMessage = async (req, res) => {
         const {message} = req.body;
         const {id:receiverId} = req.params;
         const senderId = req.user._id;
+
+         // ReceiverId'nin geçerli bir ObjectId olup olmadığını kontrol et
+         if (!mongoose.Types.ObjectId.isValid(receiverId)) {
+            return res.status(400).json({ error: "Invalid receiver ID" });
+        }
         
         let conversation= await Conversation.findOne({        //Gönderen ve alıcı arasında daha önceden bir konuşma var mı diye kontrol edilir.
             participants: { $all: [senderId, receiverId]},
@@ -31,6 +38,12 @@ export const sendMessage = async (req, res) => {
         }
 
         await Promise.all([conversation.save(), newMessage.save()]);
+        
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            //io.to (<socket_id>).emit() used to send events to specific client
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
         
 
         res.status(201).json(newMessage);
