@@ -1,8 +1,9 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Kullanılan Teknolojiler
+MongoDB: Veritabanı yönetimi için kullanılmıştır.
+Express: Sunucu tarafı ve API'lar için kullanılmıştır.
+React: İstemci tarafı ve kullanıcı arayüzü için kullanılmıştır.
+Node.js: Sunucu tarafı için kullanılmıştır.
+Socket.io: Gerçek zamanlı mesajlaşma için kullanılmıştır.
+JWT (JSON Web Tokens): Kullanıcı kimlik doğrulama işlemleri için kullanılmıştır.
